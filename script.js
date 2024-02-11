@@ -9,13 +9,13 @@ const canvas = document.querySelector("canvas"),
   ctx = canvas.getContext("2d");
 
 // global variables with default value
-let prevMouseX,
-  prevMouseY,
-  snapshot,
+let snapshot,
   isDrawing = false,
   selectedTool = "brush",
   brushWidth = 3,
-  selectedColor = "#000";
+  selectedColor = "#000",
+  startX,
+  startY;
 
 const setCanvasBackground = () => {
   // setting whole canvas background to white, so the downloaded img background will be white
@@ -31,39 +31,34 @@ window.addEventListener("load", () => {
   setCanvasBackground();
 });
 
-const drawRect = (x, y) => {
+const drawRect = (x, y, width, height) => {
   // if fillColor isn't checked draw a rect with border else draw rect with background
   if (!fillColor.checked) {
     // creating rectangle according to the touch position
-    return ctx.strokeRect(
-      x - brushWidth / 2,
-      y - brushWidth / 2,
-      brushWidth,
-      brushWidth
-    );
+    return ctx.strokeRect(x, y, width, height);
   }
-  ctx.fillRect(x - brushWidth / 2, y - brushWidth / 2, brushWidth, brushWidth);
+  ctx.fillRect(x, y, width, height);
 };
 
-const drawCircle = (x, y) => {
+const drawCircle = (x, y, radius) => {
   ctx.beginPath(); // creating new path to draw circle
-  ctx.arc(x, y, brushWidth / 2, 0, 2 * Math.PI); // creating circle according to the touch position
+  ctx.arc(x, y, radius, 0, 2 * Math.PI); // creating circle according to the touch position
   fillColor.checked ? ctx.fill() : ctx.stroke(); // if fillColor is checked fill circle else draw border circle
 };
 
-const drawTriangle = (x, y) => {
+const drawTriangle = (x, y, side) => {
   ctx.beginPath(); // creating new path to draw triangle
-  ctx.moveTo(x, y - brushWidth / 2); // moving triangle to the touch position
-  ctx.lineTo(x + brushWidth / 2, y + brushWidth / 2); // creating first line of triangle
-  ctx.lineTo(x - brushWidth / 2, y + brushWidth / 2); // creating second line of triangle
+  ctx.moveTo(x, y); // moving triangle to the touch position
+  ctx.lineTo(x + side / 2, y + side); // creating first line of triangle
+  ctx.lineTo(x - side / 2, y + side); // creating second line of triangle
   ctx.closePath(); // closing path of a triangle so the third line draw automatically
   fillColor.checked ? ctx.fill() : ctx.stroke(); // if fillColor is checked fill triangle else draw border
 };
 
 const startDraw = (x, y) => {
   isDrawing = true;
-  prevMouseX = x; // passing current touchX position as prevMouseX value
-  prevMouseY = y; // passing current touchY position as prevMouseY value
+  startX = x; // passing current touchX position as startX value
+  startY = y; // passing current touchY position as startY value
   ctx.beginPath(); // creating new path to draw
   ctx.lineWidth = brushWidth; // passing brushSize as line width
   ctx.strokeStyle = selectedColor; // passing selectedColor as stroke style
@@ -76,6 +71,11 @@ const drawing = (x, y) => {
   if (!isDrawing) return; // if isDrawing is false return from here
   ctx.putImageData(snapshot, 0, 0); // adding copied canvas data on to this canvas
 
+  const width = x - startX;
+  const height = y - startY;
+  const radius = Math.sqrt(width ** 2 + height ** 2);
+  const side = width > height ? width : height;
+
   if (selectedTool === "brush" || selectedTool === "eraser") {
     // if selected tool is eraser then set strokeStyle to white
     // to paint white color on to the existing canvas content else set the stroke color to selected color
@@ -83,11 +83,11 @@ const drawing = (x, y) => {
     ctx.lineTo(x, y); // creating line according to the touch position
     ctx.stroke(); // drawing/filling line with color
   } else if (selectedTool === "rectangle") {
-    drawRect(x, y);
+    drawRect(startX, startY, width, height);
   } else if (selectedTool === "circle") {
-    drawCircle(x, y);
+    drawCircle(startX, startY, radius);
   } else {
-    drawTriangle(x, y);
+    drawTriangle(startX, startY, side);
   }
 };
 
