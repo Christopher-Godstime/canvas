@@ -66,7 +66,27 @@
         <canvas></canvas>
       </section>
       <section class="tools-board h-[150px]">
-        <ul class="options flex justify-between px-[5%] py-[20px]">
+        <ul
+          class="options flex gap-[20px] items-start justify-between px-[5%] py-[20px]"
+        >
+          <li class="option active tool" id="brush">
+            <img class="w-[50px]" src="icons/pen2.png" alt="" />
+          </li>
+          <li class="option tool" id="eraser">
+            <img class="w-[50px]" src="icons/eraser.png" alt="" />
+          </li>
+          <li class="option">
+            <input type="range" id="size-slider" min="1" max="30" value="5" />
+          </li>
+          <div class="row colors">
+            <ul class="options">
+              <li class="option selected">
+                <input class="" type="color" id="color-picker" value="#000" />
+              </li>
+            </ul>
+          </div>
+        </ul>
+        <ul class="options flex justify-between px-[5%]">
           <li class="option tool" id="rectangle">
             <img class="w-[30px]" src="icons/rectangle.svg" alt="" />
           </li>
@@ -84,25 +104,6 @@
             />
             <label class="text-white" for="fill-color">Fill Shape</label>
           </li>
-        </ul>
-
-        <ul class="options flex gap-[20px] items-start justify-between px-[5%]">
-          <li class="option active tool" id="brush">
-            <img class="w-[50px]" src="icons/pen2.png" alt="" />
-          </li>
-          <li class="option tool" id="eraser">
-            <img class="w-[50px]" src="icons/eraser.png" alt="" />
-          </li>
-          <li class="option">
-            <input type="range" id="size-slider" min="1" max="30" value="5" />
-          </li>
-          <div class="row colors">
-            <ul class="options">
-              <li class="option selected">
-                <input class="" type="color" id="color-picker" value="#000" />
-              </li>
-            </ul>
-          </div>
         </ul>
       </section>
     </div>
