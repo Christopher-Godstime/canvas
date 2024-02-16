@@ -12,7 +12,7 @@ let prevMouseX,
   snapshot,
   isDrawing = false,
   selectedTool = "brush",
-  brushWidth = 3,
+  brushWidth = 6,
   selectedColor = "#000";
 
 const setCanvasBackground = () => {
@@ -78,19 +78,47 @@ const startDraw = (e) => {
 const drawing = (e) => {
   if (!isDrawing) return;
   const rect = canvas.getBoundingClientRect();
-  ctx.putImageData(snapshot, 0, 0);
   const mouseX = (e.clientX || e.touches[0].clientX) - rect.left;
   const mouseY = (e.clientY || e.touches[0].clientY) - rect.top;
+
   if (selectedTool === "brush" || selectedTool === "eraser") {
-    ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
-    ctx.lineTo(mouseX, mouseY);
-    ctx.stroke();
-  } else if (selectedTool === "rectangle") {
-    drawRect({ offsetX: mouseX, offsetY: mouseY });
-  } else if (selectedTool === "circle") {
-    drawCircle({ offsetX: mouseX, offsetY: mouseY });
+    const mouseXPrev = prevMouseX;
+    const mouseYPrev = prevMouseY;
+    const dx = mouseX - mouseXPrev;
+    const dy = mouseY - mouseYPrev;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const step = brushWidth / 2;
+    const steps = Math.max(1, Math.floor(distance / step));
+
+    for (let i = 0; i < steps; i++) {
+      const x = mouseXPrev + dx * (i / steps);
+      const y = mouseYPrev + dy * (i / steps);
+      if (selectedTool === "brush") {
+        ctx.putImageData(snapshot, 0, 0);
+        ctx.strokeStyle = selectedColor;
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      } else if (selectedTool === "eraser") {
+        ctx.clearRect(
+          x - brushWidth / 2,
+          y - brushWidth / 2,
+          brushWidth,
+          brushWidth
+        );
+      }
+    }
+
+    prevMouseX = mouseX;
+    prevMouseY = mouseY;
   } else {
-    drawTriangle({ offsetX: mouseX, offsetY: mouseY });
+    ctx.putImageData(snapshot, 0, 0);
+    if (selectedTool === "rectangle") {
+      drawRect({ offsetX: mouseX, offsetY: mouseY });
+    } else if (selectedTool === "circle") {
+      drawCircle({ offsetX: mouseX, offsetY: mouseY });
+    } else {
+      drawTriangle({ offsetX: mouseX, offsetY: mouseY });
+    }
   }
 };
 
