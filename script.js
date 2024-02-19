@@ -1,6 +1,5 @@
 const canvas = document.querySelector("canvas"),
   toolBtns = document.querySelectorAll(".tool"),
-  fillColor = document.querySelector("#fill-color"),
   sizeSlider = document.querySelector("#size-slider"),
   colorBtns = document.querySelectorAll(".colors .option"),
   clearCanvas = document.querySelector(".clear-canvas"),
@@ -29,15 +28,7 @@ window.addEventListener("load", () => {
 });
 
 const drawRect = (e) => {
-  if (!fillColor.checked) {
-    return ctx.strokeRect(
-      e.offsetX,
-      e.offsetY,
-      prevMouseX - e.offsetX,
-      prevMouseY - e.offsetY
-    );
-  }
-  ctx.fillRect(
+  ctx.strokeRect(
     e.offsetX,
     e.offsetY,
     prevMouseX - e.offsetX,
@@ -51,7 +42,7 @@ const drawCircle = (e) => {
     Math.pow(prevMouseX - e.offsetX, 2) + Math.pow(prevMouseY - e.offsetY, 2)
   );
   ctx.arc(prevMouseX, prevMouseY, radius, 0, 2 * Math.PI);
-  fillColor.checked ? ctx.fill() : ctx.stroke();
+  ctx.stroke();
 };
 
 const drawTriangle = (e) => {
@@ -60,7 +51,7 @@ const drawTriangle = (e) => {
   ctx.lineTo(e.offsetX, e.offsetY);
   ctx.lineTo(prevMouseX * 2 - e.offsetX, e.offsetY);
   ctx.closePath();
-  fillColor.checked ? ctx.fill() : ctx.stroke();
+  ctx.stroke();
 };
 
 const startDraw = (e) => {
@@ -71,7 +62,6 @@ const startDraw = (e) => {
   ctx.beginPath();
   ctx.lineWidth = brushWidth;
   ctx.strokeStyle = selectedColor;
-  ctx.fillStyle = selectedColor;
   snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
 };
 
@@ -116,7 +106,7 @@ const drawing = (e) => {
       drawRect({ offsetX: mouseX, offsetY: mouseY });
     } else if (selectedTool === "circle") {
       drawCircle({ offsetX: mouseX, offsetY: mouseY });
-    } else {
+    } else if (selectedTool === "triangle") {
       drawTriangle({ offsetX: mouseX, offsetY: mouseY });
     }
   }
@@ -156,24 +146,56 @@ saveImg.addEventListener("click", () => {
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-canvas.addEventListener("mouseup", () => (isDrawing = false));
-
-canvas.addEventListener("touchstart", handleTouchStart);
-canvas.addEventListener("touchmove", handleTouchMove);
-canvas.addEventListener("touchend", handleTouchEnd);
-
-function handleTouchStart(e) {
-  e.preventDefault();
-  const touch = e.touches[0];
-  startDraw(touch);
-}
-
-function handleTouchMove(e) {
-  e.preventDefault();
-  const touch = e.touches[0];
-  drawing(touch);
-}
-
-function handleTouchEnd() {
+canvas.addEventListener("mouseup", () => {
   isDrawing = false;
-}
+});
+
+canvas.addEventListener("touchstart", (e) => {
+  startDraw(e.touches[0]);
+});
+
+canvas.addEventListener("touchmove", (e) => {
+  drawing(e.touches[0]);
+});
+
+canvas.addEventListener("touchend", () => {
+  isDrawing = false;
+});
+
+let typingMode = false;
+let typingText = "";
+let cursorX, cursorY;
+
+const renderText = () => {
+  const fontSize = brushWidth * 4;
+  ctx.font = `${fontSize}px Arial`;
+  ctx.fillStyle = selectedColor;
+  ctx.fillText(typingText, cursorX, cursorY);
+};
+
+document.addEventListener("keydown", (e) => {
+  if (typingMode) {
+    if (e.key === "Enter") {
+      typingMode = false;
+      renderText();
+    } else if (e.key === "Backspace") {
+      typingText = typingText.slice(0, -1);
+    } else {
+      typingText += e.key;
+    }
+
+    renderText();
+  }
+});
+
+canvas.addEventListener("mousemove", (e) => {
+  const rect = canvas.getBoundingClientRect();
+  cursorX = e.clientX - rect.left;
+  cursorY = e.clientY - rect.top;
+  typingText = "";
+});
+
+canvas.addEventListener("mousedown", () => {
+  typingMode = true;
+  typingText = "";
+});

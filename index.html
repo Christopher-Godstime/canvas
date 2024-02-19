@@ -51,8 +51,43 @@
     />
   </head>
   <body class="">
-    <div class="">
-      <section class="drawing-board h-[calc(100vh-130px)] relative">
+    <div class="flex">
+      <section
+        class="tools-board h-screen w-[80px] opacity-0 hover:opacity-100"
+      >
+        <ul
+          class="options px-[5%] py-[20px] overflow-auto flex flex-col justify-between h-full"
+        >
+          <li class="option active tool flex justify-center" id="brush">
+            <img class="w-[25px]" src="icons/pen.png" alt="" />
+          </li>
+          <li class="option tool flex justify-center" id="eraser">
+            <img class="w-[20px]" src="icons/eraser2.png" alt="" />
+          </li>
+          <li class="option flex justify-center">
+            <input type="range" id="size-slider" min="1" max="30" value="5" />
+          </li>
+          <div
+            class="flex justify-center items-center rounded-[10px] w-[45px] h-[45px] bg-gradient-to-br from-indigo-600 via-pink-500 to-yellow-500 cursor-pointer mx-auto"
+          >
+            <div id="color-picker"></div>
+          </div>
+
+          <li class="option tool flex justify-center" id="rectangle">
+            <img class="w-[30px]" src="icons/rectangle.svg" alt="" />
+          </li>
+          <li class="option tool flex justify-center" id="circle">
+            <img class="w-[30px]" src="icons/circle.svg" alt="" />
+          </li>
+          <li class="option tool flex justify-center" id="triangle">
+            <img class="w-[30px]" src="icons/triangle.svg" alt="" />
+          </li>
+          <!-- <li class="option tool add-text flex justify-center">
+            <img class="w-[30px]" src="icons/write.png" alt="" />
+          </li> -->
+        </ul>
+      </section>
+      <section class="drawing-board h-[calc(100vh)] relative">
         <section class="left-[5%] pt-[10px] absolute 0">
           <div
             class="row buttons flex justify-end gap-[20px] items-center opacity-0 hover:opacity-100"
@@ -71,43 +106,14 @@
         </section>
         <canvas></canvas>
       </section>
-      <section class="tools-board h-[80px]">
-        <ul
-          class="options flex gap-[20px] items-start justify-between px-[5%] py-[20px] overflow-auto"
-        >
-          <li class="option active tool" id="brush">
-            <img class="w-[15px]" src="icons/pen.png" alt="" />
-          </li>
-          <li class="option tool" id="eraser">
-            <img class="w-[13px]" src="icons/eraser2.png" alt="" />
-          </li>
-          <li class="option">
-            <input type="range" id="size-slider" min="1" max="30" value="5" />
-          </li>
+    </div>
 
-          <div id="color-picker"></div>
-
-          <li class="option tool" id="rectangle">
-            <img class="w-[30px]" src="icons/rectangle.svg" alt="" />
-          </li>
-          <li class="option tool" id="circle">
-            <img class="w-[30px]" src="icons/circle.svg" alt="" />
-          </li>
-          <li class="option tool" id="triangle">
-            <img class="w-[30px]" src="icons/triangle.svg" alt="" />
-          </li>
-          <li class="option">
-            <input
-              class="w-[20px] hidden h-[20px] cursor-pointer rounded-[8px] accent-primary"
-              type="checkbox"
-              id="fill-color"
-            />
-            <label class="text-gray-800 whitespace-nowrap" for="fill-color"
-              >Fill Shape</label
-            >
-          </li>
-        </ul>
-      </section>
+    <div id="textModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <input type="text" id="textInput" placeholder="Enter text..." />
+        <button id="textSubmit">Add Text</button>
+      </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <script>
