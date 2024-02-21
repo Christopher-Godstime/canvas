@@ -53,10 +53,10 @@
   <body class="">
     <div class="flex">
       <section
-        class="tools-board h-screen w-[80px] opacity-0 hover:opacity-100"
+        class="tools-board w-[80px] flex items-center opacity-0 hover:opacity-100"
       >
         <ul
-          class="options px-[5%] py-[20px] overflow-auto flex flex-col justify-between h-full"
+          class="options px-[5%] py-[20px] overflow-auto flex flex-col justify-between h-[calc(80vh)]"
         >
           <li class="option active tool flex justify-center" id="brush">
             <img class="w-[25px]" src="icons/pen.png" alt="" />
@@ -72,19 +72,30 @@
           >
             <div id="color-picker"></div>
           </div>
+          <div class="relative">
+            <button
+              id="button"
+              class="text-[16px] font-[700] text-gray-900 flex justify-center w-full"
+            >
+              Shapes
+            </button>
 
-          <li class="option tool flex justify-center" id="rectangle">
-            <img class="w-[30px]" src="icons/rectangle.svg" alt="" />
-          </li>
-          <li class="option tool flex justify-center" id="circle">
-            <img class="w-[30px]" src="icons/circle.svg" alt="" />
-          </li>
-          <li class="option tool flex justify-center" id="triangle">
-            <img class="w-[30px]" src="icons/triangle.svg" alt="" />
-          </li>
-          <!-- <li class="option tool add-text flex justify-center">
-            <img class="w-[30px]" src="icons/write.png" alt="" />
-          </li> -->
+            <div id="dropdown">
+              <div
+                class="absolute bottom-[30px] left-[8px] z-40 h-[80px] w-[60px] flex flex-col justify-around mt-[3px] z-40 bg-white"
+              >
+                <div class="option tool flex justify-center" id="rectangle">
+                  <img class="w-[20px]" src="icons/rectangle.svg" alt="" />
+                </div>
+                <div class="option tool flex justify-center" id="circle">
+                  <img class="w-[20px]" src="icons/circle.svg" alt="" />
+                </div>
+                <div class="option tool flex justify-center" id="triangle">
+                  <img class="w-[20px]" src="icons/triangle.svg" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
         </ul>
       </section>
       <section class="drawing-board h-[calc(100vh)] relative">
@@ -119,7 +130,7 @@
     <script>
       const pickr = Pickr.create({
         el: "#color-picker",
-        theme: "classic", // or 'monolith', or 'nano'
+        theme: "classic",
 
         swatches: [
           "rgba(244, 67, 54, 1)",
@@ -139,12 +150,10 @@
         ],
 
         components: {
-          // Main components
           preview: true,
           opacity: true,
           hue: true,
 
-          // Input / output Options
           interaction: {
             hex: true,
             rgba: true,
@@ -159,11 +168,27 @@
       });
 
       pickr.on("change", (color) => {
-        // Update selectedColor variable with the new color
-        selectedColor = color.toHEXA().toString(); // Convert color to HEX format
-        console.log(selectedColor); // Log the selected color for testing
+        selectedColor = color.toHEXA().toString();
+        console.log(selectedColor);
+      });
+
+      const button = document.getElementById("button");
+      const dropdown = document.getElementById("dropdown");
+
+      dropdown.style.display = "none";
+
+      button.addEventListener("click", function () {
+        if (
+          dropdown.style.display === "none" ||
+          dropdown.style.display === ""
+        ) {
+          dropdown.style.display = "block";
+          //   dropdown.style.top = "0px";
+        } else {
+          dropdown.style.display = "none";
+          //   filterDropdown.style.top = "0";
+        }
       });
     </script>
-    <script></script>
   </body>
 </html>
