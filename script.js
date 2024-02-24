@@ -133,14 +133,11 @@ const drawing = (e) => {
 
 toolBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelector(".options .active")?.classList.remove("active");
+    toolBtns.forEach((tool) => tool.classList.remove("active"));
     btn.classList.add("active");
     selectedTool = btn.id;
     isWriting = selectedTool === "write";
-    // Ensure drawing is reset whenever switching tools
     isDrawing = false;
-
-    // Additional reset actions for specific tools could be added here
   });
 });
 
