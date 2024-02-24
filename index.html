@@ -51,53 +51,8 @@
     />
   </head>
   <body class="">
-    <div class="flex">
-      <section
-        class="tools-board w-[60px] flex ml-[20px] relative opacity-0 hover:opacity-100"
-      >
-        <ul
-          class="options px-[5%] py-[20px] overflow-auto flex flex-col justify-between h-[calc(60vh)] gap-[10px]"
-        >
-          <li class="option active tool flex justify-center" id="brush">
-            <img class="w-[22px]" src="icons/pen.png" alt="" />
-          </li>
-          <li class="option tool flex justify-center" id="eraser">
-            <img class="w-[18px]" src="icons/eraser2.png" alt="" />
-          </li>
-          <li class="option flex justify-center">
-            <input type="range" id="size-slider" min="1" max="30" value="5" />
-          </li>
-          <div
-            class="flex justify-center items-center rounded-[10px] w-[45px] h-[45px] bg-gradient-to-br from-indigo-600 via-pink-500 to-yellow-500 cursor-pointer mx-auto"
-          >
-            <div id="color-picker"></div>
-          </div>
-          <div class="">
-            <button
-              id="button"
-              class="text-[14px] font-[700] text-gray-900 flex justify-center w-full"
-            >
-              Shapes
-            </button>
-          </div>
-        </ul>
-        <div id="dropdown" class="absolute top-[calc(57vh)] left-[5px]">
-          <div
-            class="h-[140px] w-[50px] flex flex-col justify-around mt-[3px] z-40"
-          >
-            <div class="option tool flex justify-center" id="rectangle">
-              <img class="w-[20px]" src="icons/rectangle.svg" alt="" />
-            </div>
-            <div class="option tool flex justify-center" id="circle">
-              <img class="w-[20px]" src="icons/circle.svg" alt="" />
-            </div>
-            <div class="option tool flex justify-center" id="triangle">
-              <img class="w-[20px]" src="icons/triangle.svg" alt="" />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="drawing-board h-[calc(100vh)] relative">
+    <div class="">
+      <section class="drawing-board h-[calc(100vh-70px)] relative">
         <section class="left-[5%] pt-[10px] absolute 0">
           <div
             class="row buttons flex justify-end gap-[20px] items-center opacity-0 hover:opacity-100"
@@ -115,6 +70,61 @@
           </div>
         </section>
         <canvas></canvas>
+      </section>
+
+      <section
+        class="tools-board relative flex justify-center h-[70px] pb-[10px]"
+      >
+        <ul class="options flex items-end gap-[10px]">
+          <li class="option active tool" id="brush">
+            <img class="w-[23px]" src="icons/pen.png" alt="" />
+          </li>
+          <li class="option tool" id="eraser">
+            <img class="w-[21px]" src="icons/eraser2.png" alt="" />
+          </li>
+          <li class="option w-[60px]">
+            <input
+              class=""
+              type="range"
+              id="size-slider"
+              min="1"
+              max="30"
+              value="5"
+            />
+          </li>
+          <div
+            class="flex justify-center items-center rounded-[10px] w-[45px] h-[45px] bg-gradient-to-br from-indigo-600 via-pink-500 to-yellow-500 cursor-pointer"
+          >
+            <div id="color-picker"></div>
+          </div>
+          <div class="">
+            <button
+              id="button"
+              class="text-[10px] font-[700] text-white w-full bg-orange-400 hover:bg-orange-500 h-[35px] px-[5px] rounded-[10px]"
+            >
+              Shapes
+            </button>
+          </div>
+          <li class="option tool" id="write">
+            <img class="w-[45px]" src="icons/write.png" alt="" />
+          </li>
+        </ul>
+        <div
+          id="dropdown"
+          class="absolute bottom-[60px] transform x-[65px] translate-x-[65px]"
+        >
+          <div class="flex gap-[20px] z-40">
+            <div class="option tool flex justify-center" id="rectangle">
+              <img class="w-[25px]" src="icons/rectangle.svg" alt="" />
+            </div>
+            <div class="option tool flex justify-center" id="circle">
+              <img class="w-[25px]" src="icons/circle.svg" alt="" />
+            </div>
+            <div class="option tool flex justify-center" id="triangle">
+              <img class="w-[25px]" src="icons/triangle.svg" alt="" />
+            </div>
+          </div>
+        </div>
       </section>
     </div>
 

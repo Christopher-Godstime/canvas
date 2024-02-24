@@ -4,15 +4,32 @@ const canvas = document.querySelector("canvas"),
   colorBtns = document.querySelectorAll(".colors .option"),
   clearCanvas = document.querySelector(".clear-canvas"),
   saveImg = document.querySelector(".save-img"),
+  writeBtn = document.getElementById("write"),
   ctx = canvas.getContext("2d");
 
 let prevMouseX,
   prevMouseY,
   snapshot,
   isDrawing = false,
+  isWriting = false,
   selectedTool = "brush",
   brushWidth = 6,
-  selectedColor = "#000";
+  selectedColor = "#000",
+  typingText = "";
+
+const toggleWritingMode = () => {
+  isWriting = !isWriting;
+  typingText = "";
+};
+
+writeBtn.addEventListener("click", () => {
+  toolBtns.forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  writeBtn.classList.add("active");
+  selectedTool = "write";
+  toggleWritingMode();
+});
 
 const setCanvasBackground = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -100,6 +117,8 @@ const drawing = (e) => {
 
     prevMouseX = mouseX;
     prevMouseY = mouseY;
+  } else if (selectedTool === "write" && isWriting) {
+    renderText();
   } else {
     ctx.putImageData(snapshot, 0, 0);
     if (selectedTool === "rectangle") {
@@ -117,6 +136,9 @@ toolBtns.forEach((btn) => {
     document.querySelector(".options .active").classList.remove("active");
     btn.classList.add("active");
     selectedTool = btn.id;
+    if (selectedTool !== "write") {
+      isWriting = false;
+    }
   });
 });
 
@@ -162,22 +184,17 @@ canvas.addEventListener("touchend", () => {
   isDrawing = false;
 });
 
-let typingMode = false;
-let typingText = "";
-let cursorX, cursorY;
-
 const renderText = () => {
   const fontSize = brushWidth * 4;
   ctx.font = `${fontSize}px Arial`;
   ctx.fillStyle = selectedColor;
-  ctx.fillText(typingText, cursorX, cursorY);
+  ctx.fillText(typingText, prevMouseX, prevMouseY);
 };
 
 document.addEventListener("keydown", (e) => {
-  if (typingMode) {
+  if (selectedTool === "write" && isWriting) {
     if (e.key === "Enter") {
-      typingMode = false;
-      renderText();
+      isWriting = false;
     } else if (e.key === "Backspace") {
       typingText = typingText.slice(0, -1);
     } else {
@@ -188,11 +205,19 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+canvas.addEventListener("click", () => {
+  if (selectedTool === "write") {
+    isWriting = true;
+    prevMouseX = cursorX;
+    prevMouseY = cursorY;
+  }
+});
+
 canvas.addEventListener("mousemove", (e) => {
   const rect = canvas.getBoundingClientRect();
   cursorX = e.clientX - rect.left;
   cursorY = e.clientY - rect.top;
-  typingText = "";
+  // typingText = "";
 });
 
 canvas.addEventListener("mousedown", () => {
