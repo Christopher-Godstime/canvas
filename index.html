@@ -77,10 +77,35 @@
       >
         <ul class="options flex items-end gap-[10px]">
           <li class="option active tool" id="brush">
-            <img class="w-[23px]" src="icons/pen.png" alt="" />
+            <img class="w-[14px]" src="icons/brush.png" alt="" />
           </li>
           <li class="option tool" id="eraser">
-            <img class="w-[21px]" src="icons/eraser2.png" alt="" />
+            <img class="w-[15px]" src="icons/pencileraser.png" alt="" />
+          </li>
+
+          <div
+            class="flex justify-center items-center rounded-[10px] w-[45px] h-[45px] bg-gradient-to-br from-indigo-600 via-pink-500 to-yellow-500 cursor-pointer opacity-0"
+          >
+            <div id="color-picker"></div>
+          </div>
+          <div class="-ml-[55px]">
+            <img
+              class="w-[40px] cursor-pointer"
+              src="icons/colorpicker.png"
+              alt="Color Picker Trigger"
+            />
+          </div>
+
+          <div class="">
+            <button
+              id="button"
+              class="text-[10px] font-[700] text-white w-full bg-orange-400 hover:bg-orange-500 h-[35px] px-[5px] rounded-[10px]"
+            >
+              Shapes
+            </button>
+          </div>
+          <li class="option tool" id="write">
+            <img class="w-[45px]" src="icons/text.png" alt="" />
           </li>
           <li class="option w-[60px]">
             <input
@@ -92,33 +117,17 @@
               value="5"
             />
           </li>
-          <div
-            class="flex justify-center items-center rounded-[10px] w-[45px] h-[45px] bg-gradient-to-br from-indigo-600 via-pink-500 to-yellow-500 cursor-pointer"
-          >
-            <div id="color-picker"></div>
-          </div>
-          <div class="">
-            <button
-              id="button"
-              class="text-[10px] font-[700] text-white w-full bg-orange-400 hover:bg-orange-500 h-[35px] px-[5px] rounded-[10px]"
-            >
-              Shapes
-            </button>
-          </div>
-          <li class="option tool" id="write">
-            <img class="w-[45px]" src="icons/write.png" alt="" />
-          </li>
         </ul>
         <div
           id="dropdown"
-          class="absolute bottom-[60px] transform x-[65px] translate-x-[65px]"
+          class="absolute bottom-[70px] transform -x-[12px] -translate-x-[12px]"
         >
           <div class="flex gap-[20px] z-40">
             <div class="option tool flex justify-center" id="rectangle">
-              <img class="w-[25px]" src="icons/rectangle.svg" alt="" />
+              <img class="w-[25px]" src="icons/rectangle.png" alt="" />
             </div>
             <div class="option tool flex justify-center" id="circle">
-              <img class="w-[25px]" src="icons/circle.svg" alt="" />
+              <img class="w-[25px]" src="icons/oval.png" alt="" />
             </div>
             <div class="option tool flex justify-center" id="triangle">
               <img class="w-[25px]" src="icons/triangle.svg" alt="" />
