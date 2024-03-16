@@ -199,7 +199,10 @@ section{
 }
 
 
-
+.option#brushWidthIcon.active {
+  color: #4A98F7; /* Change color when active */
+  filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
+}
 
 
 

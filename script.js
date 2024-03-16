@@ -1,6 +1,6 @@
 const canvas = document.querySelector("canvas"),
   toolBtns = document.querySelectorAll(".tool"),
-  sizeSlider = document.querySelector("#size-slider"),
+  // sizeSlider = document.querySelector("#size-slider"),
   colorBtns = document.querySelectorAll(".colors .option"),
   clearCanvas = document.querySelector(".clear-canvas"),
   saveImg = document.querySelector(".save-img"),
@@ -21,6 +21,20 @@ const toggleWritingMode = () => {
   isWriting = !isWriting;
   typingText = "";
 };
+
+const brushWidthIcon = document.getElementById("brushWidthIcon");
+let brushWidthActive = false;
+
+brushWidthIcon.addEventListener("click", () => {
+  if (!brushWidthActive) {
+    brushWidth = 10; // Set fixed brush width
+    brushWidthIcon.classList.add("active");
+  } else {
+    brushWidth = 6; // Reset brush width
+    brushWidthIcon.classList.remove("active");
+  }
+  brushWidthActive = !brushWidthActive;
+});
 
 writeBtn.addEventListener("click", () => {
   toolBtns.forEach((btn) => {
@@ -141,7 +155,7 @@ toolBtns.forEach((btn) => {
   });
 });
 
-sizeSlider.addEventListener("change", () => (brushWidth = sizeSlider.value));
+// sizeSlider.addEventListener("change", () => (brushWidth = sizeSlider.value));
 
 colorBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
